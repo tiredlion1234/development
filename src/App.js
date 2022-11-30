@@ -34,13 +34,7 @@ function App() {
 
   //   const [buttonText, setButtonText] = useState('Click');
 
-  //   function handleClick() {
-  //     if (buttonText === "Add to Cart") {
-  //       setButtonText('Remove from Cart');
-  //     } else {
-  //       setButtonText("Add to Cart")
-  //     }
-  //   } 
+   
 
   
 
@@ -60,10 +54,7 @@ function App() {
     }
   }
 
-  //   // lets users select a filter type
-  //   <Nav onSelect={selectFilterType}>
-  //     <Nav.Item><Nav.Link eventKey="All">All</Nav.Link></Nav.Item>
-  //   </Nav>
+ 
 
 
     const matchesFilterType = item => {
@@ -78,7 +69,7 @@ function App() {
     }
 
 
-    const filteredData = bakeryData.filter(matchesFilterType)
+   
 
     const bakeryData = [
       { name: 'Biscuits', type: 'bread', price: 3, img: bis },
@@ -98,7 +89,11 @@ function App() {
       { name: 'Cheesecake', type: 'cake', price: 15, img: cheese },
     ]
 
+    const filteredData = bakeryData.filter(matchesFilterType)
 
+    const sortedData = filteredData.sort((a,b) => {
+      return a.price - b.price;
+    })
 
   //   return (
 
@@ -176,7 +171,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          onChange={matchesFilterType}
+          onChange={sortedData}
           >
           </input>
           Price--cheapest first
@@ -193,7 +188,7 @@ function App() {
         <p>Total Cost: </p>
       </div>
       <div className='items'>
-        {filteredData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name}/>)}
+        {sortedData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name}/>)}
       </div>
       
     
