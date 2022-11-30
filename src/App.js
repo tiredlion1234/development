@@ -26,19 +26,19 @@ function App() {
 
 
 
-    const [type, setType] = useState("All");
+  const [type, setType] = useState("All");
 
-    const [cartstate, setCart] = useState([0,0,0,0,0,0,0,0,0,0,0,0]); 
+  const [cartstate, setCart] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    const [coststate, setcost] = useState([0,0,0,0,0,0,0,0,0,0,0,0]); 
+  const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   //   const [buttonText, setButtonText] = useState('Click');
 
-   
 
-  
 
-  const addToCart = index =>{
+
+
+  const addToCart = index => {
     return () => {
       const newCart = [...cartstate]
       newCart[index]++
@@ -46,7 +46,7 @@ function App() {
     }
   }
 
-  const removeFromCart = index =>{
+  const removeFromCart = index => {
     return () => {
       const newCart = [...cartstate]
       newCart[index]--
@@ -54,46 +54,55 @@ function App() {
     }
   }
 
- 
 
 
-    const matchesFilterType = item => {
-      // all items should be shown when no filter is selected
-      if (type === "All") {
-        return true
-      } else if (type === item.type) {
-        return true
-      } else {
-        return false
-      }
+
+  const matchesFilterType = item => {
+    // all items should be shown when no filter is selected
+    if (type === "All") {
+      return true
+    } else if (type === item.type) {
+      return true
+    } else {
+      return false
     }
+  }
 
 
-   
 
-    const bakeryData = [
-      { name: 'Biscuits', type: 'bread', price: 3, img: bis },
-      { name: 'Croissant', type: 'bread', price: 7, img: cro },
-      { name: 'Cake', type: 'cake', price: 20, img: cake },
 
-      { name: 'Turnover', type: 'pastry', price: 6, img: turn },
-      { name: 'Muffin', type: 'bread', price: 4 , img: muff},
-      { name: 'Cupcake', type: 'cake', price: 5, img: cup },
+  const bakeryData = [
+    { name: 'Biscuits', type: 'bread', price: 3, img: bis },
+    { name: 'Croissant', type: 'bread', price: 7, img: cro },
+    { name: 'Cake', type: 'cake', price: 20, img: cake },
 
-      { name: 'Bearclaws', type: 'pastry', price: 8, img:bear },
-      { name: 'Pie', type: 'pastry', price: 14, img: pie },
-      { name: 'Brownie', type: 'pastry', price: 6, img: bro },
+    { name: 'Turnover', type: 'pastry', price: 6, img: turn },
+    { name: 'Muffin', type: 'bread', price: 4, img: muff },
+    { name: 'Cupcake', type: 'cake', price: 5, img: cup },
 
-      { name: 'Bauggette', type: 'bread', price: 6, img: bau },
-      { name: 'Sourdough', type: 'bread', price: 7 , img: sour},
-      { name: 'Cheesecake', type: 'cake', price: 15, img: cheese },
-    ]
+    { name: 'Bearclaws', type: 'pastry', price: 8, img: bear },
+    { name: 'Pie', type: 'pastry', price: 14, img: pie },
+    { name: 'Brownie', type: 'pastry', price: 6, img: bro },
 
-    const filteredData = bakeryData.filter(matchesFilterType)
+    { name: 'Bauggette', type: 'bread', price: 6, img: bau },
+    { name: 'Sourdough', type: 'bread', price: 7, img: sour },
+    { name: 'Cheesecake', type: 'cake', price: 15, img: cheese },
+  ]
 
-    const sortedData = filteredData.sort((a,b) => {
+  const filteredData = bakeryData.filter(matchesFilterType)
+
+  const [sortedData, setSortedData] = useState(bakeryData)
+
+  const handleSort = () => {
+    const newSortedData = filteredData.sort((a, b) => {
       return a.price - b.price;
     })
+    setSortedData(newSortedData);
+  }
+
+  const handlefilter = (input) => {
+    setType(input); 
+  }
 
   //   return (
 
@@ -119,16 +128,16 @@ function App() {
   //       </div>
 
 
-  
+
 
   const multiply = (num1, num2) => {
     return num1 * num2;
-    };
+  };
 
-  const costarray = () =>{
+  const costarray = () => {
     var i;
-    for (i=0; i<cartstate.length; i++){
-      coststate[i] = cartstate[i]*bakeryData[i].price
+    for (i = 0; i < cartstate.length; i++) {
+      coststate[i] = cartstate[i] * bakeryData[i].price
     }
     return coststate
   }
@@ -138,13 +147,13 @@ function App() {
 
   return (
     <div className='container'>
-      
+
       <div className='controls'>
         <h2>Filter By:</h2>
         <label>
           <input
             type="checkbox"
-          onChange={matchesFilterType}
+            onChange={handlefilter('bread')}
           >
           </input>
           Bread
@@ -153,7 +162,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          onChange={matchesFilterType}
+            onChange={handlefilter('cake')}
           >
           </input>
           Cake
@@ -162,7 +171,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          onChange={matchesFilterType}
+            onChange={handlefilter('pastry')}
           >
           </input>
           Pastry
@@ -170,8 +179,8 @@ function App() {
         <h2>Sort By:</h2>
         <label>
           <input
-            type="checkbox"
-          onChange={sortedData}
+            type="radio"
+            onChange={handleSort}
           >
           </input>
           Price--cheapest first
@@ -183,15 +192,15 @@ function App() {
 
       <div>
         {bakeryData.map((item) => <p>{item.name}</p>)}
-        {cartstate.map((quantity, index) => <p>Quantity: {quantity} Cost: </p> ,costarray())} 
-         {/* multiply({quantity},{bakeryData[index].price}))} */}
+        {cartstate.map((quantity, index) => <p>Quantity: {quantity} Cost: </p>, costarray())}
+        {/* multiply({quantity},{bakeryData[index].price}))} */}
         <p>Total Cost: </p>
       </div>
       <div className='items'>
-        {sortedData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name}/>)}
+        {sortedData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name} />)}
       </div>
-      
-    
+
+
     </div>
 
   )
