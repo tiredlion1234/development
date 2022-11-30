@@ -20,21 +20,66 @@ function App() {
 
 
 
+  const bakeryData = [
+    { name: 'Biscuits', type: 'bread', price: 3, img: bis },
+    { name: 'Croissant', type: 'pastry', price: 7, img: cro },
+    { name: 'Cake', type: 'cake', price: 20, img: cake },
+
+    { name: 'Turnover', type: 'pastry', price: 6, img: turn },
+    { name: 'Muffin', type: 'bread', price: 4, img: muff },
+    { name: 'Cupcake', type: 'cake', price: 5, img: cup },
+
+    { name: 'Bearclaws', type: 'pastry', price: 8, img: bear },
+    { name: 'Pie', type: 'pastry', price: 14, img: pie },
+    { name: 'Brownie', type: 'pastry', price: 6, img: bro },
+
+    { name: 'Bauggette', type: 'bread', price: 6, img: bau },
+    { name: 'Sourdough', type: 'bread', price: 7, img: sour },
+    { name: 'Cheesecake', type: 'cake', price: 15, img: cheese },
+  ]
 
 
 
 
 
+  const [type, setType] = useState([]);
 
-  const [type, setType] = useState("All");
+  const [disData, setdisData] = useState(bakeryData);
 
   const [cartstate, setCart] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
+  const [activesort, setactivesort] = useState(false);
+
   //   const [buttonText, setButtonText] = useState('Click');
 
+  
 
+  const handleFilter = (newtype) => {
+    let newtypes = type;
+    if (type.includes(newtype)) {
+      const index = type.indexOf(newtype)
+      newtypes.splice(index, 1)
+    } else {
+      newtypes = [...type, newtype]
+    }
+    setType(newtypes);
+    filterData(newtypes)
+  }
+
+
+
+
+
+  const filterData = (mytypefilters) => {
+    let myfilteredData = bakeryData;
+    if (mytypefilters.length != 0) {
+      myfilteredData = myfilteredData.filter((item) => mytypefilters.includes(item.type))
+    }
+
+    setdisData(myfilteredData)
+  }
 
 
 
@@ -55,54 +100,24 @@ function App() {
   }
 
 
-
-
-  const matchesFilterType = item => {
-    // all items should be shown when no filter is selected
-    if (type === "All") {
-      return true
-    } else if (type === item.type) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-
-
-
-  const bakeryData = [
-    { name: 'Biscuits', type: 'bread', price: 3, img: bis },
-    { name: 'Croissant', type: 'bread', price: 7, img: cro },
-    { name: 'Cake', type: 'cake', price: 20, img: cake },
-
-    { name: 'Turnover', type: 'pastry', price: 6, img: turn },
-    { name: 'Muffin', type: 'bread', price: 4, img: muff },
-    { name: 'Cupcake', type: 'cake', price: 5, img: cup },
-
-    { name: 'Bearclaws', type: 'pastry', price: 8, img: bear },
-    { name: 'Pie', type: 'pastry', price: 14, img: pie },
-    { name: 'Brownie', type: 'pastry', price: 6, img: bro },
-
-    { name: 'Bauggette', type: 'bread', price: 6, img: bau },
-    { name: 'Sourdough', type: 'bread', price: 7, img: sour },
-    { name: 'Cheesecake', type: 'cake', price: 15, img: cheese },
-  ]
-
-  const filteredData = bakeryData.filter(matchesFilterType)
-
-  const [sortedData, setSortedData] = useState(bakeryData)
+  const [sortedData, setSortedData] = useState([])
 
   const handleSort = () => {
-    const newSortedData = filteredData.sort((a, b) => {
+
+    if (activesort == false){
+    const newSortedData = disData.sort((a, b) => {
       return a.price - b.price;
+
     })
-    setSortedData(newSortedData);
+    setdisData(newSortedData);
+    setactivesort(true);
+
+  }else{
+    setactivesort(false);
+  }
   }
 
-  const handlefilter = (input) => {
-    setType(input); 
-  }
+
 
   //   return (
 
@@ -153,7 +168,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-            onChange={handlefilter('bread')}
+            onChange={() => handleFilter('bread')}
           >
           </input>
           Bread
@@ -162,7 +177,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-            onChange={handlefilter('cake')}
+            onChange={() => handleFilter('cake')}
           >
           </input>
           Cake
@@ -171,7 +186,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-            onChange={handlefilter('pastry')}
+            onChange={() => handleFilter('pastry')}
           >
           </input>
           Pastry
@@ -179,8 +194,8 @@ function App() {
         <h2>Sort By:</h2>
         <label>
           <input
-            type="radio"
-            onChange={handleSort}
+            type="checkbox"
+            onChange={() => handleSort}
           >
           </input>
           Price--cheapest first
@@ -197,7 +212,7 @@ function App() {
         <p>Total Cost: </p>
       </div>
       <div className='items'>
-        {sortedData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name} />)}
+        {disData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name} />)}
       </div>
 
 
