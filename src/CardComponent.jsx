@@ -21,7 +21,7 @@ const CardComponent = ({ item, addToCart, removeFromCart}) => {
             <p>{item.type}</p>
             <p>{item.price}</p>
             <img src={item.img}></img>
-            <button type="button" onClick={change()} id="mybutton">Add me to cart</button>
+            <button type="button" onClick={addToCart} id="mybutton">Add me to cart</button>
             {/* before it was just {addToCart} */}
         </div>
     )

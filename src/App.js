@@ -66,21 +66,19 @@ function App() {
   //   </Nav>
 
 
-  //   const matchesFilterType = item => {
-  //     // all items should be shown when no filter is selected
-  //     if (type === "All") {
-  //       return true
-  //     } else if (type === item.type) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   }
+    const matchesFilterType = item => {
+      // all items should be shown when no filter is selected
+      if (type === "All") {
+        return true
+      } else if (type === item.type) {
+        return true
+      } else {
+        return false
+      }
+    }
 
-  //   // const myFilterFunction = bakeryData.filter((item) =>{
-  //   //   return item.type == ''
-  //   // })
-  //   const filteredData = bakeryData.filter(matchesFilterType)
+
+    const filteredData = bakeryData.filter(matchesFilterType)
 
     const bakeryData = [
       { name: 'Biscuits', type: 'bread', price: 3, img: bis },
@@ -126,6 +124,8 @@ function App() {
   //       </div>
 
 
+  
+
   const multiply = (num1, num2) => {
     return num1 * num2;
     };
@@ -149,7 +149,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          // onChange={matchesFilterType}
+          onChange={matchesFilterType}
           >
           </input>
           Bread
@@ -158,7 +158,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          // onChange={matchesFilterType}
+          onChange={matchesFilterType}
           >
           </input>
           Cake
@@ -167,7 +167,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          // onChange={matchesFilterType}
+          onChange={matchesFilterType}
           >
           </input>
           Pastry
@@ -176,7 +176,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-          // onChange={matchesFilterType}
+          onChange={matchesFilterType}
           >
           </input>
           Price--cheapest first
@@ -193,8 +193,9 @@ function App() {
         <p>Total Cost: </p>
       </div>
       <div className='items'>
-        {bakeryData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name}/>)}
+        {filteredData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name}/>)}
       </div>
+      
     
     </div>
 
