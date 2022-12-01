@@ -46,7 +46,7 @@ function App() {
 
   const [disData, setdisData] = useState(bakeryData);
 
-  let originaldisData = disData;
+
 
   const [cartstate, setCart] = useState([<h2>Currently in you cart:</h2>]);
 
@@ -121,7 +121,8 @@ function App() {
   }
 
   const originalsort = () => {
-    setdisData(originaldisData);
+      setdisData(bakeryData);
+      handleFilter(type);
   }
 
 
