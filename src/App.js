@@ -46,6 +46,8 @@ function App() {
 
   const [disData, setdisData] = useState(bakeryData);
 
+  let originaldisData = disData;
+
   const [cartstate, setCart] = useState([<h2>Currently in you cart:</h2>]);
 
   const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -56,7 +58,7 @@ function App() {
 
   //   const [buttonText, setButtonText] = useState('Click');
 
-  
+
 
 
 
@@ -121,6 +123,10 @@ function App() {
     }
   }
 
+  const originalsort = () => {
+    setdisData(originaldisData);
+  }
+
 
 
   //   return (
@@ -149,12 +155,12 @@ function App() {
 
 
 
- 
 
- 
+
+
   const addtototal = (price, name) => {
     settotalPrice(totalPrice + price);
-    
+
     setCart([...cartstate, name]);
   }
 
@@ -202,14 +208,18 @@ function App() {
           Pastry
         </label>
         <h2>Sort By:</h2>
-        <label>
-          <input
-            type="checkbox"
-            onChange={() => handleSort}
-          >
-          </input>
-          Price--cheapest first
-        </label>
+
+
+
+
+        <div>
+
+          <input type="radio" onChange={() => handleSort} name="sorting" /> Price--cheapest first
+          <input type="radio" onChange={() => originalsort} name="sorting" /> Original Order
+
+
+
+        </div>
 
 
       </div>
@@ -217,17 +227,17 @@ function App() {
       <div>
         {/* {bakeryData.map((item) => <p>{item.name}</p>)} */}
         {cartstate}
-        {console.log(typeof(totalPrice))}
+        {console.log(typeof (totalPrice))}
         {/* .map((quantity, index) => <p>Quantity: {quantity} Cost: </p>)} */}
         {/* multiply({quantity},{bakeryData[index].price}))} */}
         <h2>Total Cost:</h2> {totalPrice}
       </div>
       <div className='items'>
         {disData.map((item, index) => <CardComponent item={item} addtototal={addtototal} removefromtotal={removefromtotal} key={item.name} onClick={() => {
-           addtototal(item.price, item.name)
-           removefromtotal(item.price, item.name)
-         
-         
+          addtototal(item.price, item.name)
+          removefromtotal(item.price, item.name)
+
+
         }} />)}
       </div>
 
