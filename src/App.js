@@ -46,15 +46,19 @@ function App() {
 
   const [disData, setdisData] = useState(bakeryData);
 
-  const [cartstate, setCart] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [cartstate, setCart] = useState(<h2>Currently in you cart:</h2>);
 
   const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const [activesort, setactivesort] = useState(false);
 
+  const [totalPrice, settotalPrice] = useState(0);
+
   //   const [buttonText, setButtonText] = useState('Click');
 
   
+
+
 
   const handleFilter = (newtype) => {
     let newtypes = type;
@@ -104,17 +108,17 @@ function App() {
 
   const handleSort = () => {
 
-    if (activesort == false){
-    const newSortedData = disData.sort((a, b) => {
-      return a.price - b.price;
+    if (activesort == false) {
+      const newSortedData = disData.sort((a, b) => {
+        return a.price - b.price;
 
-    })
-    setdisData(newSortedData);
-    setactivesort(true);
+      })
+      setdisData(newSortedData);
+      setactivesort(true);
 
-  }else{
-    setactivesort(false);
-  }
+    } else {
+      setactivesort(false);
+    }
   }
 
 
@@ -145,17 +149,23 @@ function App() {
 
 
 
-  const multiply = (num1, num2) => {
-    return num1 * num2;
-  };
+ 
 
-  const costarray = () => {
-    var i;
-    for (i = 0; i < cartstate.length; i++) {
-      coststate[i] = cartstate[i] * bakeryData[i].price
-    }
-    return coststate
+ 
+  const addtototal = (price, name) => {
+    settotalPrice(totalPrice + price);
+    
+    setCart([...cartstate, name]);
   }
+
+  const removefromtotal = (price, name) => {
+    settotalPrice(totalPrice - price);
+    const newCart = cartstate.filter((item) => item.name !== name);
+
+    setCart(newCart);
+  }
+
+
 
 
 
@@ -201,18 +211,24 @@ function App() {
           Price--cheapest first
         </label>
 
-        <h2>Total Cart Cost: total</h2>
 
       </div>
 
       <div>
-        {bakeryData.map((item) => <p>{item.name}</p>)}
-        {cartstate.map((quantity, index) => <p>Quantity: {quantity} Cost: </p>, costarray())}
+        {/* {bakeryData.map((item) => <p>{item.name}</p>)} */}
+        {cartstate}
+        {console.log(typeof(totalPrice))}
+        {/* .map((quantity, index) => <p>Quantity: {quantity} Cost: </p>)} */}
         {/* multiply({quantity},{bakeryData[index].price}))} */}
-        <p>Total Cost: </p>
+        <p><h2>Total Cost:</h2> {totalPrice}</p>
       </div>
       <div className='items'>
-        {disData.map((item, index) => <CardComponent item={item} addToCart={addToCart(index)} removeFromCart={removeFromCart(index)} key={item.name} />)}
+        {disData.map((item, index) => <CardComponent item={item} addtototal={addtototal} removefromtotal={removefromtotal} key={item.name} onClick={() => {
+           addtototal(item.price, item.name)
+           removefromtotal(item.price, item.name)
+         
+         
+        }} />)}
       </div>
 
 

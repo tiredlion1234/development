@@ -1,7 +1,7 @@
 
 
 
-const CardComponent = ({ item, addToCart, removeFromCart}) => {
+const CardComponent = ({ item, addtototal, removefromtotal}) => {
 
     function change() 
 {
@@ -9,10 +9,10 @@ const CardComponent = ({ item, addToCart, removeFromCart}) => {
     var elem = document.getElementById("mybutton");
     if (elem.value=="Add me to cart") {
         elem.value = "Remove me from Cart"; 
-        addToCart()}
+        addtototal()}
     else {
         elem.value = "Add me to cart"; 
-        removeFromCart()}
+        removefromtotal()}
 }
     return (
         <div>
