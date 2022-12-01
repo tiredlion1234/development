@@ -46,7 +46,7 @@ function App() {
 
   const [disData, setdisData] = useState(bakeryData);
 
-  const [cartstate, setCart] = useState(<h2>Currently in you cart:</h2>);
+  const [cartstate, setCart] = useState([<h2>Currently in you cart:</h2>]);
 
   const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
@@ -108,7 +108,7 @@ function App() {
 
   const handleSort = () => {
 
-    if (activesort == false) {
+    if (activesort === false) {
       const newSortedData = disData.sort((a, b) => {
         return a.price - b.price;
 
@@ -220,7 +220,7 @@ function App() {
         {console.log(typeof(totalPrice))}
         {/* .map((quantity, index) => <p>Quantity: {quantity} Cost: </p>)} */}
         {/* multiply({quantity},{bakeryData[index].price}))} */}
-        <p><h2>Total Cost:</h2> {totalPrice}</p>
+        <h2>Total Cost:</h2> {totalPrice}
       </div>
       <div className='items'>
         {disData.map((item, index) => <CardComponent item={item} addtototal={addtototal} removefromtotal={removefromtotal} key={item.name} onClick={() => {
