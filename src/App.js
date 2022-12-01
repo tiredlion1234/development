@@ -119,7 +119,7 @@ function App() {
 
   const originalsort = () => {
     setdisData(bakeryData);
-    handleFilter(type);
+    filterData(type);
   }
 
 

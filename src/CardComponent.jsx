@@ -7,12 +7,12 @@ const CardComponent = ({ item, addtototal, removefromtotal}) => {
 {
     
     var elem = document.getElementById("mybutton");
-    if (elem.value==="Add me to cart") {
-        elem.value = "Remove me from Cart"; 
-        addtototal(item.name,item.price)}
+    if (elem.innerHTML ==="Add me to cart") {
+        elem.innerHTML = "Remove me from Cart"; 
+        addtototal(item.price, item.name)}
     else {
-        elem.value = "Add me to cart"; 
-        removefromtotal(item.name, item.price)}
+        elem.innerHTML = "Add me to cart"; 
+        removefromtotal(item.price, item.name)}
 }
     return (
         <div>
@@ -22,7 +22,7 @@ const CardComponent = ({ item, addtototal, removefromtotal}) => {
             <p>{item.price}</p>
             <img src={item.img}></img>
             <button type="button" onClick={() => change()} id="mybutton">Add me to cart</button>
-            {/* before it was just {addToCart} */}
+  
         </div>
     )
 }
