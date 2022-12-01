@@ -112,7 +112,9 @@ function App() {
       return a.price - b.price;
 
     })
+    // console.log(newSortedData);
     setdisData(newSortedData);
+    // console.log(disData);
 
 
   }
@@ -126,7 +128,7 @@ function App() {
   const addtototal = (price, name) => {
     settotalPrice(totalPrice + price);
 
-    setCart([...cartstate, name]);
+    setCart([...cartstate, name, <br></br>]);
   }
 
   const removefromtotal = (price, name) => {
@@ -175,8 +177,8 @@ function App() {
 
         <div>
 
-          <input type="radio" onChange={() => handleSort} name="sorting" /> Price--cheapest first
-          <input type="radio" onChange={() => originalsort} name="sorting" /> Original Order
+          <input type="radio" onChange={() => handleSort()} name="sorting" /> Price--cheapest first
+          <input type="radio" onChange={() => originalsort()} name="sorting" /> Original Order
 
 
 
@@ -188,12 +190,13 @@ function App() {
       <div>
         {/* {bakeryData.map((item) => <p>{item.name}</p>)} */}
         {cartstate}
-        {console.log(typeof (totalPrice))}
+    
         {/* .map((quantity, index) => <p>Quantity: {quantity} Cost: </p>)} */}
         {/* multiply({quantity},{bakeryData[index].price}))} */}
         <h2>Total Cost:</h2> {totalPrice}
       </div>
       <div className='items'>
+        {console.log(disData)}
         {disData.map((item, index) => <CardComponent item={item} addtototal={addtototal} removefromtotal={removefromtotal} key={item.name} onClick={() => {
           addtototal(item.price, item.name)
           removefromtotal(item.price, item.name)
