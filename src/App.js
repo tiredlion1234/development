@@ -52,7 +52,7 @@ function App() {
 
   const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-  const [activesort, setactivesort] = useState(false);
+
 
   const [totalPrice, settotalPrice] = useState(0);
 
@@ -110,17 +110,14 @@ function App() {
 
   const handleSort = () => {
 
-    if (activesort === false) {
-      const newSortedData = disData.sort((a, b) => {
-        return a.price - b.price;
 
-      })
-      setdisData(newSortedData);
-      setactivesort(true);
+    const newSortedData = disData.sort((a, b) => {
+      return a.price - b.price;
 
-    } else {
-      setactivesort(false);
-    }
+    })
+    setdisData(newSortedData);
+
+
   }
 
   const originalsort = () => {
