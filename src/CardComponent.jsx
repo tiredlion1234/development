@@ -9,10 +9,10 @@ const CardComponent = ({ item, addtototal, removefromtotal}) => {
     var elem = document.getElementById("mybutton");
     if (elem.value==="Add me to cart") {
         elem.value = "Remove me from Cart"; 
-        addtototal()}
+        addtototal(item.name,item.price)}
     else {
         elem.value = "Add me to cart"; 
-        removefromtotal()}
+        removefromtotal(item.name, item.price)}
 }
     return (
         <div>

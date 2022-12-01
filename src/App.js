@@ -56,7 +56,7 @@ function App() {
 
   const [totalPrice, settotalPrice] = useState(0);
 
-  //   const [buttonText, setButtonText] = useState('Click');
+ 
 
 
 
@@ -105,9 +105,6 @@ function App() {
     }
   }
 
-
-  const [sortedData, setSortedData] = useState([])
-
   const handleSort = () => {
 
 
@@ -121,39 +118,9 @@ function App() {
   }
 
   const originalsort = () => {
-      setdisData(bakeryData);
-      handleFilter(type);
+    setdisData(bakeryData);
+    handleFilter(type);
   }
-
-
-
-  //   return (
-
-
-  //     <div className="App">
-  //       <div>
-  //         <h1>My Bakery</h1>
-  //       </div>
-  //       <div className="item-cards">
-  //         <h1>My Bakery</h1>
-  //         <div className="item">
-  //           {
-  //             filteredData
-  //               .sort(mysortfunctions[sortfunction].function)
-  //               .map((item, index) => (<CardComponent key={"item" + index} info={item}
-  //                 added={favorites[item.name]} setStateofParent={updateList} />
-  //               ))
-  //           }
-  //         </div>
-  //       </div>
-  //       <div>
-  //         <button onClick={handleClick}>{buttonText}</button>
-  //       </div>
-
-
-
-
-
 
 
   const addtototal = (price, name) => {
@@ -168,10 +135,6 @@ function App() {
 
     setCart(newCart);
   }
-
-
-
-
 
 
   return (
