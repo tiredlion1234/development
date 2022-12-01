@@ -131,12 +131,11 @@ function App() {
     setCart([...cartstate, name, <br></br>]);
   }
 
-  const removefromtotal = (price, name) => {
-    settotalPrice(totalPrice - price);
-    const newCart = cartstate.filter((item) => item.name !== name);
-
-    setCart(newCart);
-  }
+  const removefromtotal = (price, name) => { 
+    settotalPrice(totalPrice - price); 
+    const newCart = cartstate.filter((item) => item.name !== name); 
+    setCart([...newCart]);  // making a copy of newCart
+}
 
 
   return (
