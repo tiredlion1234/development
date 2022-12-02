@@ -21,7 +21,7 @@ function App() {
 
 
   const bakeryData = [
-    { name: 'Biscuits', type: 'bread', price: 3, img: bis },
+    { name: 'Biscuit', type: 'bread', price: 3, img: bis },
     { name: 'Croissant', type: 'pastry', price: 7, img: cro },
     { name: 'Cake', type: 'cake', price: 20, img: cake },
 
@@ -29,7 +29,7 @@ function App() {
     { name: 'Muffin', type: 'bread', price: 4, img: muff },
     { name: 'Cupcake', type: 'cake', price: 5, img: cup },
 
-    { name: 'Bearclaws', type: 'pastry', price: 8, img: bear },
+    { name: 'Bearclaw', type: 'pastry', price: 8, img: bear },
     { name: 'Pie', type: 'pastry', price: 14, img: pie },
     { name: 'Brownie', type: 'pastry', price: 6, img: bro },
 
@@ -43,104 +43,105 @@ function App() {
 
 
   const [type, setType] = useState([]);
+  const [calories, setCalories] = useState("");
+  const [sorted, setSorted] = useState(false)
 
   const [disData, setdisData] = useState(bakeryData);
 
 
 
-  const [cartstate, setCart] = useState([<h2>Currently in you cart:</h2>]);
+  const [cart, setCartState] = useState([])
 
-  const [coststate, setcost] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
 
 
 
   const [totalPrice, settotalPrice] = useState(0);
 
- 
+
 
 
 
 
 
   const handleFilter = (newtype) => {
-    let newtypes = type;
-    if (type.includes(newtype)) {
+    let newtypes = [...type];
+    if (newtypes.includes(newtype)) {
       const index = type.indexOf(newtype)
       newtypes.splice(index, 1)
     } else {
-      newtypes = [...type, newtype]
+      newtypes = [...newtypes, newtype]
     }
     setType(newtypes);
-    filterData(newtypes)
+    filterData(newtypes, calories, sorted)
+  }
+
+  const handleFilter2 = (name) => {
+    setCalories(name)
+    filterData(type, name, sorted)
   }
 
 
 
 
 
-  const filterData = (mytypefilters) => {
-    let myfilteredData = bakeryData;
+  const filterData = (mytypefilters, calorieFilter, sort) => {
+    let myfilteredData = [...bakeryData];
     if (mytypefilters.length != 0) {
       myfilteredData = myfilteredData.filter((item) => mytypefilters.includes(item.type))
     }
-
-    setdisData(myfilteredData)
-  }
-
-
-
-  const addToCart = index => {
-    return () => {
-      const newCart = [...cartstate]
-      newCart[index]++
-      setCart(newCart)
+    console.log(calorieFilter)
+    switch (calorieFilter) {
+      case "<5":
+        myfilteredData = myfilteredData.filter((item) => item.price < 5)
+        break;
+      case "5-15":
+        myfilteredData = myfilteredData.filter((item) => item.price >= 5 && item.price <= 15)
+        break;
+      case ">15":
+        myfilteredData = myfilteredData.filter((item) => item.price > 15)
+        break;
+      default:
+        break;
     }
-  }
-
-  const removeFromCart = index => {
-    return () => {
-      const newCart = [...cartstate]
-      newCart[index]--
-      setCart(newCart)
+    if (sort) {
+      myfilteredData.sort((a, b) => {
+        return a.price - b.price;
+      })
     }
+    setdisData(myfilteredData);
   }
-
-  const handleSort = () => {
-
-
-    const newSortedData = disData.sort((a, b) => {
-      return a.price - b.price;
-
-    })
-    // console.log(newSortedData);
-    setdisData(newSortedData);
-    // console.log(disData);
-
-
-  }
-
-  const originalsort = () => {
-    setdisData(bakeryData);
-    filterData(type);
-  }
-
 
   const addtototal = (price, name) => {
     settotalPrice(totalPrice + price);
 
-    setCart([...cartstate, name, <br></br>]);
+
+    setCartState([...cart, name])
   }
 
-  const removefromtotal = (price, name) => { 
-    settotalPrice(totalPrice - price); 
-    const newCart = cartstate.filter((item) => item.name !== name); 
-    setCart([...newCart]);  // making a copy of newCart
-}
+  const removefromtotal = (price, name) => {
+    settotalPrice(totalPrice - price);
+    const newCart = cart.filter((item) => item !== name);
+    setCartState([...newCart]);
+  }
+
+
+  let displayData = [...bakeryData]
+  if (type.length != 0) {
+    displayData = displayData.filter((item) => type.includes(item.type))
+  }
+  if (sorted) {
+    displayData.sort((a, b) => {
+      return a.price - b.price;
+    })
+  }
+
 
 
   return (
-    <div className='container'>
 
+    <div className='container'>
+      <div className='title'><h1>My Bakery aka ur Fav Pâtisserie</h1></div>
       <div className='controls'>
         <h2>Filter By:</h2>
         <label>
@@ -169,6 +170,45 @@ function App() {
           </input>
           Pastry
         </label>
+        <h2>Price range filters:</h2>
+        <label>
+          <input
+            type="radio"
+            name="pricefilter"
+            onClick={() => handleFilter2("")}
+            >
+          </input>
+          None
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="pricefilter"
+            onClick={() => handleFilter2("<5")}
+            >
+          </input>
+          Under $5
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="pricefilter"
+            onClick={() => handleFilter2('5-15')}
+          >
+          </input>
+          $5 to $15
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="pricefilter"
+            onClick={() => handleFilter2('>15')}
+          >
+          </input>
+          Over $15
+        </label>
         <h2>Sort By:</h2>
 
 
@@ -176,8 +216,8 @@ function App() {
 
         <div>
 
-          <input type="radio" onChange={() => handleSort()} name="sorting" /> Price--cheapest first
-          <input type="radio" onChange={() => originalsort()} name="sorting" /> Original Order
+          <input type="radio" onChange={() => filterData(type, calories, true)} name="sorting" /> Price--cheapest first
+          <input type="radio" onChange={() => filterData(type, calories, false)} name="sorting" /> Original Order
 
 
 
@@ -187,16 +227,23 @@ function App() {
       </div>
 
       <div>
-        {/* {bakeryData.map((item) => <p>{item.name}</p>)} */}
-        {cartstate}
-    
-        {/* .map((quantity, index) => <p>Quantity: {quantity} Cost: </p>)} */}
-        {/* multiply({quantity},{bakeryData[index].price}))} */}
-        <h2>Total Cost:</h2> {totalPrice}
+
+        <h2>Currently in your cart:</h2>
+
+
+        {cart.map((name) => (
+          <div>
+            {name}
+            <br />
+          </div>
+        ))}
+
+
+        <h2>Total Cost:</h2> ${totalPrice}
       </div>
       <div className='items'>
-        {console.log(disData)}
-        {disData.map((item, index) => <CardComponent item={item} addtototal={addtototal} removefromtotal={removefromtotal} key={item.name} onClick={() => {
+
+        {disData.map((item) => <CardComponent item={item} addtototal={addtototal} removefromtotal={removefromtotal} key={item.name} onClick={() => {
           addtototal(item.price, item.name)
           removefromtotal(item.price, item.name)
 
